@@ -1,0 +1,10 @@
+﻿@model TrabajoGrupal.Models.ClsNumber
+@{
+    ViewBag.Title = "Resultado";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>El número @Model.Numero en letras es: @ViewBag.Letras</p>
+
+@Html.ActionLink("Volver", "Index")

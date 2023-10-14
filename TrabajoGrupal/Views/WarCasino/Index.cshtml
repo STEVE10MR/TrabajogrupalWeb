@@ -1,0 +1,57 @@
+﻿@model TrabajoGrupal.Models.ClsWarCasino
+
+@{
+    ViewBag.Title = "Casino War";
+}
+
+<h1 class="text-center mb-5 text-white">Guerra de cartas</h1>
+<div class="container">
+    @using (Html.BeginForm("Play", "WarCasino", FormMethod.Post))
+    {
+        <div class="row justify-content-center">
+            <div class="card-container col-sm-4">
+                <h2>Jugador</h2>
+                <p>Puntos: @Model.PlayerScore</p>
+                <div class="card-deck">
+                    @foreach (var card in Model.PlayerCards)
+                    {
+                        <div class="card">
+                            <img src='@Url.Content("~/Content/Cartas/" + @card+".png")' class="card-img-top" />
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="card-container col-sm-4">
+                <h2>Dealer</h2>
+                <p>Puntos: @Model.DealerScore</p>
+                <div class="card-deck">
+                    @foreach (var card in Model.DealerCards)
+                    {
+                        <div class="card">
+                            <img src='@Url.Content("~/Content/Cartas/" + @card+".png")' class="card-img-top" />
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="card-container col-sm-4">
+                <h2>Resultado</h2>
+                <p>@Model.Result</p>
+                <input type="submit" value="Jugar" class="btn btn-primary" id="playButton">
+            </div>
+        </div>
+        if (Model.IsWar)
+        {
+            <div class="war-container container mt-5">
+                <h2>Cartas de Guerra</h2>
+                <div class="card-deck">
+                    @foreach (var card in Model.WarCards)
+                    {
+                        <div class="card">
+                            <img src='@Url.Content("~/Content/Cartas/" + @card+".png")' class="card-img-top" />
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>

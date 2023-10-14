@@ -1,0 +1,108 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Proyecto 4 MVC</title>
+    <link href="~/Source/css/bootstrap.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/Site.css")" />
+    <link href="~/Source/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Source/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Source/js/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="#">Trabajo Grupal</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="@Url.Action("Index", "Default")">Inicio <span class="sr-only">(current)</span></a>
+                        </li>
+                        @if (Session["UserId"] != null)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Ejercicios
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("processTransaction", "Bank")">Operación Bancaria</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Number")">Convertir numero a texto</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "WarCasino")">Guerra de cartas</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Hangman")">Juego de Ahorcado</a>
+                                </div>
+                            </li>
+
+                            <li class="nav-item active">
+                                @using (Html.BeginForm("LogOut", "Account", FormMethod.Post))
+                                {
+                                    <button type="submit" class="btn btn-link text-decoration-none text-white">Cerrar sesión</button>
+                                }
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item active">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+                                    Iniciar sesión
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    @if (Session["UserId"] == null)
+    {
+        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="loginModalLabel">Iniciar sesión</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @Html.Partial("~/Views/Account/Login.cshtml")
+                        <hr>
+                        <p class="text-center font-weight-bold">¿No tienes una cuenta?</p>
+                        <a href="#" class="btn btn-outline-primary btn-block">Registrarse</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script>
+        alert('@TempData["ErrorMessage"]');
+        </script>
+    }
+
+    <script src="~/Source/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Source/js/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="~/Content/design.js" defer></script>
+</body>
+</html>
+
+

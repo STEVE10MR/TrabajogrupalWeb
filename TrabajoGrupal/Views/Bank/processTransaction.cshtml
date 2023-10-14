@@ -1,0 +1,75 @@
+﻿@model TrabajoGrupal.Models.ClsBank
+@{
+    ViewBag.Title = "Operation";
+}
+
+<h1 class="text-center mb-5 text-white">Operacion Bancaria</h1>
+<div class="row mt-4">
+    <div class="col-md-12">
+        <h3 class="font-weight-bold text-center">Saldo actual: @Model.totalBalance</h3>
+    </div>
+</div>
+
+@using (Html.BeginForm("ProcessTransaction", "Bank", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.fullNameCustomer, "Nombre : ",new { @class = "font-weight-bold" })
+        @Html.TextBoxFor(m => m.fullNameCustomer, new { @class = "form-control", required = "required" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.amount, "Monto : ", new { @class = "font-weight-bold" })
+        @Html.TextBoxFor(m => m.amount, new { @class = "form-control", required = "required" })
+        @Html.ValidationSummary()
+    </div>
+    <div class="form-group">
+        <div class="form-check">
+            @Html.RadioButtonFor(m => m.typeOperation, 0, new { @class = "form-check-input", id = "deposit" })
+            @Html.Label("deposit", "Depósito", new { @class = "form-check-label" })
+        </div>
+        <div class="form-check">
+            @Html.RadioButtonFor(m => m.typeOperation, 1, new { @class = "form-check-input", id = "withdrawal" })
+            @Html.Label("withdrawal", "Retiro", new { @class = "form-check-label" })
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Procesar</button>
+}
+
+
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h4 class="font-weight-bold text-center">Depósitos:</h4>
+        <ul class="list-group">
+            @if (Model.depositHistory.Count() > 0)
+            {
+                foreach (var deposit in Model.depositHistory)
+                {
+                    <li class="list-group-item list-group-item-success">@deposit.ToString("C")</li>
+                }
+            }
+            else
+            {
+                <li class="list-group-item list-group-item-success">$0.00</li>
+            }
+        </ul>
+        <h4 class="font-weight-bold text-center mt-4">Total depósitos: @Model.totalDeposit.ToString("C")</h4>
+    </div>
+    <div class="col-md-6">
+        <h4 class="font-weight-bold text-center">Retiros:</h4>
+        <ul class="list-group">
+            @if (Model.withdrawalHistory.Count() > 0)
+            {
+                foreach (var withdrawal in Model.withdrawalHistory)
+                {
+                    <li class="list-group-item list-group-item-danger">@withdrawal.ToString("C")</li>
+                }
+            }
+            else
+            {
+                <li class="list-group-item list-group-item-danger">$0.00</li>
+            }
+
+        </ul>
+        <h4 class="font-weight-bold text-center mt-4">Total retiros: @Model.totalWithdrawwal.ToString("C")</h4>
+    </div>
+</div>

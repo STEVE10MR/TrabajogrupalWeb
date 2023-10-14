@@ -1,0 +1,53 @@
+﻿@model TrabajoGrupal.Models.ClsHangman
+
+@{
+    ViewBag.Title = "Juego de Ahorcado";
+}
+
+<div class="container hangman-container">
+    <h1 class="text-center mb-5 text-white">Juego de Ahorcado</h1>
+    <h3 class="text-center mb-5 text-white">Puntuación: @Session["Score"]</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="hangman-drawing">
+                <img src='@Url.Content("~/Content/Hangman/" + @Model.AttemptsLeft + ".png")' class="card-img-top" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <p class="text-center text-white">
+                Palabra a adivinar:
+                @for (int i = 0; i < Model.MaskedWord.Length; i++)
+                {
+                    <span class="letter">@Model.MaskedWord[i]</span>
+                }
+            </p>
+
+            <p class="text-center text-white">
+                Intentos restantes: @Model.AttemptsLeft
+            </p>
+
+            <p class="text-center text-white">
+                Letras adivinadas: @Model.GuessedLetters
+            </p>
+
+            @if (Model.GameOver)
+            {
+                <p class="text-center text-white">@(Model.Win ? "¡Ganaste!" : "Perdiste. La palabra era: " + Model.WordToGuess)</p>
+                <p class="text-center">
+                    <a href="@Url.Action("Index", "Hangman")" class="btn btn-primary">Reiniciar juego</a>
+                </p>
+            }
+            else
+            {
+                using (Html.BeginForm("Guess", "Hangman", FormMethod.Post, new { @class = "text-center" }))
+                {
+                    <div class="form-group">
+                        <label for="guess" class="text-white">Ingresa una letra:</label>
+                        <input type="text" id="guess" name="guess" class="form-control" maxlength="1" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Adivinar</button>
+                }
+            }
+        </div>
+    </div>
+</div>
